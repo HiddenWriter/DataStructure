@@ -6,10 +6,12 @@
 #define NAME_SIZE 512
 
 #include <iostream>
+#include <ostream>
 #include <string>
 #include "SortedList.h"
 
 #include "ItemType.h"
 
+#include "Application.h"
 
 #endif

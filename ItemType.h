@@ -1,16 +1,17 @@
 #pragma once
-
 class ItemType{
 public:
     ItemType();
     ~ItemType();
     
     void SetID(int _id);
-    void SetName(char* _name);
+    void SetName(std::string _name);
     void SetIDFromUser();
-    void SetNameFromUser(); 
+    void SetNameFromUser();
+    void SetAllRecord(int _id, std::string _name);
+    void SetAllRecordFromUser();
     int GetID();
-    char* GetName();
+    std::string GetName();
 
     // operator overloading
     bool operator==(ItemType _item) {
@@ -42,9 +43,29 @@ public:
             return false;
         }
     }
-    
+    bool operator<=(ItemType _item) {
+        if(this->GetID() <= _item.GetID()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    bool operator>=(ItemType _item) {
+        if(this->GetID() >= _item.GetID()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    friend std::ostream& operator<<(std::ostream& _os, ItemType _item) {
+        std::cout << "\n\t";
+        std::cout << _item.GetID() << "\n\t";
+        std::cout << _item.GetName() << '\n';
+        return _os;
+    }
 private:
-    char* mName;
+    std::string mName;
     int mID;
 };
-

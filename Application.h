@@ -1,5 +1,4 @@
 #pragma once
-
 class Application
 {
 
@@ -19,6 +18,7 @@ public:
 
     int Display();
 
+    int Search();
 private:
 
     int mCommand;

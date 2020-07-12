@@ -1,7 +1,5 @@
 // Simple Sorted List 
-
 #include "pch.h"
-
 
 int main(void) {
 	Application App;

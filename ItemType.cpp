@@ -2,15 +2,12 @@
 #include "ItemType.h"
 
 ItemType::ItemType() {
-    this->mName = new char[NAME_SIZE];
     this->mName = "DEFAULT";
     this->mID = -1;
     return;
 }
 
 ItemType::~ItemType(){
-    this->mName = nullptr;
-    delete[] mName;
     return;
 }
 
@@ -19,7 +16,7 @@ void ItemType::SetID(int _id) {
     return;
 }
 
-void ItemType::SetName(char* _name) {
+void ItemType::SetName(std::string _name) {
     this->mName = _name;
     return;
 }
@@ -32,7 +29,26 @@ void ItemType::SetIDFromUser() {
 
 void ItemType::SetNameFromUser() {
     std::cout << "\n\t NAME : ";
-    std::cin.getline(this->mName, NAME_SIZE);
+    std::cin >> this->mName;
     return;
 }
 
+void ItemType::SetAllRecord(int _id, std::string _name) {
+    SetID(_id);
+    SetName(_name);
+    return;
+}
+
+void ItemType::SetAllRecordFromUser() {
+    SetIDFromUser();
+    SetNameFromUser();
+    return;
+}
+
+int ItemType::GetID() {
+    return this->mID;
+}
+
+std::string ItemType::GetName() {
+    return this->mName;
+}
