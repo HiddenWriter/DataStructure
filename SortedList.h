@@ -12,7 +12,7 @@ public:
 
     void ResetPointer();
 
-    int Add(T& _item);
+    int Add(T _item);
 
     int Delete(T _item);
 
@@ -66,9 +66,12 @@ bool SortedList<T>::IsEmpty() {
     }
 }
 template <typename T>
-int SortedList<T>::Add(T& _item) {
-
-    if(IsEmpty()) {
+int SortedList<T>::Add(T _item) {
+	if (GetItem(_item)) {
+		std::cout << "\n\t Existing Item. \n";
+		return 0;
+	}
+    if(!IsFull()) {
         this->Array[mLength] = _item;
         this->mLength++;
         return 1;
@@ -89,12 +92,6 @@ int SortedList<T>::Add(T& _item) {
 
         return 1;
     }
-    else {
-        this->Array[mLength] = _item;
-        mLength++;
-        QuickSort(0, this->mLength - 1);
-        return 1;
-    }
 }
 
 template <typename T>
@@ -103,20 +100,19 @@ int SortedList<T>::QuickSort(int _start, int _end) {
         return 1;
     }
     int pivot = _start;
-    int i = _start + 1;
+    int i = pivot + 1;
     int j = _end;
-    int temp;
 
     while(i <= j) {
-        while(this->Array[i] >= this->Array[pivot]) {
+		while (i <= _end && this->Array[i] < this->Array[pivot]) {
             i++;
         }
-        while(this->Array[j] <= this->Array[pivot] && j > _start) {
+        while(this->Array[j] > this->Array[pivot] && j >= _start) {
             j--;
         }
         if(i > j) {
-            T tempT = this->Array[i];
-            this->Array[i] = this->Array[pivot];
+            T tempT = this->Array[j];
+            this->Array[j] = this->Array[pivot];
             this->Array[pivot] = tempT;
         }
         else {
@@ -124,10 +120,10 @@ int SortedList<T>::QuickSort(int _start, int _end) {
             this->Array[j] = this->Array[i];
             this->Array[i] = tempT;
         }
-        QuickSort(_start, j - 1);
-        QuickSort(j + 1, _end);   
     }
-    return 1;
+	QuickSort(_start, j - 1);
+	QuickSort(j + 1, _end);
+	return 1;
 }
 template <typename T>
 void SortedList<T>::ResetPointer() {
@@ -158,26 +154,25 @@ int SortedList<T>::GetItem(T& _item) {
     
     int left = 0;
     int right = mLength - 1;
-    int centre = (left + right) / 2;
-    bool isFound = false;
+	int centre = -1;
+	
+	while (right - left >= 0) {
 
-    while (!isFound) {
+		centre = (left + right) / 2;
+
         if (this->Array[centre] == _item) {
             _item = this->Array[centre];
-            isFound = true;
+			return 1;
         }
         else if (this->Array[centre] < _item) {
-            left = centre;
-            centre = (centre + right) / 2;
-            if(left >= right) { break; }
+            left = centre + 1;
         }
         else if (this->Array[centre] > _item) {
-            right = centre;
-            centre = (centre + left) / 2;
-            if(left >= right) { break; }
+            right = centre - 1;
         }
     }
-    return isFound;
+	return 0;
+ 
 }
 
 template <typename T>
@@ -185,11 +180,14 @@ int SortedList<T>::Delete(T _item) {
     if(!GetItem(_item)) { return 0; }
     else {
         int left = 0;
-        int right = this->mLength;
-        int centre =(left + right) / 2;
+        int right = this->mLength - 1;
+		int centre = -1;
 
         bool isFound = false;
         while (!isFound) {
+
+			centre = (left + right) / 2;
+
             if (this->Array[centre] == _item) {
                 for(int i = centre; i < this->mLength - 1; i++) {
                     this->Array[i] = this->Array[i + 1];
@@ -198,13 +196,11 @@ int SortedList<T>::Delete(T _item) {
                 }
             }
             else if (this->Array[centre] < _item) {
-                left = centre;
-                centre = (centre + right) / 2;
+                left = centre + 1;
                 if(left >= right) { break; }
             }
             else if (this->Array[centre] > _item) {
-                right = centre;
-                centre = (centre + left) / 2;
+				right = centre - 1;
                 if(left >= right) { break; }
             }
         }

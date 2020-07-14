@@ -61,8 +61,8 @@ public:
     }
     friend std::ostream& operator<<(std::ostream& _os, ItemType _item) {
         std::cout << "\n\t";
-        std::cout << _item.GetID() << "\n\t";
-        std::cout << _item.GetName() << '\n';
+        std::cout << "ID   : "<< _item.GetID() << "\n\t";
+        std::cout << "Name : " _item.GetName() << '\n';
         return _os;
     }
 private:

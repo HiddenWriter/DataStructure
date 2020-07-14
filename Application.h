@@ -19,6 +19,8 @@ public:
     int Display();
 
     int Search();
+
+	int QuickSortItem();
 private:
 
     int mCommand;
